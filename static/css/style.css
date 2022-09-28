@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
 
+:root {
+    --tag-color: #5ad9e2;
+    --text-color: #dbdbdb;
+    --border-color: rgb(231, 148, 54);
+}
+
 body {
-    background-color: #2d2c34;
     background-image: radial-gradient(#373640, #282631, #23222b);
     background-repeat: no-repeat;
     background-attachment: fixed;
-    color: whitesmoke;
+    color: var(--text-color);
     font-family: 'Source Code Pro', monospace;
 }
 
@@ -21,7 +26,7 @@ body {
 .task-card {
     margin: 0.5rem;
     padding: 0.5rem;
-    border: 2px solid rgb(253, 215, 110);
+    border: 2px solid var(--border-color);
     border-radius: 10px;
 }
 
@@ -47,7 +52,7 @@ body {
 
 .task-card__header__title span {
     font-size: 1rem;
-    color: greenyellow;
+    color: var(--tag-color);
     font-weight: bold;
 }
 
