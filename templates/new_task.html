@@ -11,14 +11,23 @@
     </head>
 
     <body>
-        <main class="main-wrapper">
-            <form action="{{ url_for('save_task') }}", method="post">
+        <main class="horizontal-auto take-full-height flex-column" id="new-task-main">
+
+            <h1 class="main-title">New Task</h1>
+
+            <form action="{{ url_for('save_task') }}" , method="post" , class="flex-column main-center-flex take-available-height">
                 {{ form.csrf_token }}
-                {{ form.title.label }}
-                {{ form.title }}
-                {{ form.content.label }}
-                {{ form.content }}
-                {{ form.save }}
+                <div class="input-group flex-column">
+                    {{ form.title.label }}
+                    {{ form.title(placeholder='Title goes here...') }}
+                </div>
+                <div class="input-group flex-column">
+                    {{ form.content.label }}
+                    {{ form.content(placeholder='Description goes here...') }}
+                </div>
+                <div class="input-group flex-column">
+                    {{ form.save(class='submit-button') }}
+                </div>
             </form>
         </main>
     </body>

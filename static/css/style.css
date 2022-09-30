@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
 
 :root {
+    --dark-bg-color: #19191f;
+    --dark-bg-color-lighter: #2a2a34;
     --tag-color: #5ad9e2;
     --text-color: #dbdbdb;
-    --border-color: rgb(231, 148, 54);
+    --border-color: #e79436;
+    --border-color-alt: #36e73c;
 }
 
 body {
@@ -12,6 +15,51 @@ body {
     background-attachment: fixed;
     color: var(--text-color);
     font-family: 'Source Code Pro', monospace;
+}
+
+label {
+    font-size: 1.4rem;
+}
+
+input,
+textarea {
+    color: var(--text-color);
+    background-color: var(--dark-bg-color);
+    border: solid 2px var(--border-color);
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 1.2rem;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.take-full-height {
+    min-height: 100vh;
+}
+
+.horizontal-auto {
+    margin: 0 auto;
+}
+
+.main-center-flex {
+    justify-content: center;
+}
+
+.center-cross-flex {
+    justify-content: center;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+.main-title::before {
+    content: "|";
+    font-size: 3rem;
 }
 
 .main-wrapper {
@@ -62,4 +110,35 @@ body {
 
 .task-card__content {
     font-size: 1.1rem;
+}
+
+.submit-button {
+    background-color: var(--dark-bg-color);
+    border-color: var(--border-color-alt);
+    border-width: 4px;
+    width: 8rem;
+    height: 3rem;
+    align-self: center;
+    transition: all 100ms;
+}
+
+.submit-button:hover {
+    background-color: var(--dark-bg-color-lighter);
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.input-group {
+    margin: 3vh 0;
+    font-weight: 600;
+}
+
+.input-group label {
+    margin-bottom: 0.5rem;
+}
+
+#new-task-main {
+    width: 50%;
+    display: flex;
+    justify-content: center;
 }
