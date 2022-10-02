@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import render_template, request, url_for, redirect
-from app import app
+from app import app, db
 from models import Task
 from form_models import TaskForm
 
