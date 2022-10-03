@@ -1,32 +1,15 @@
 from datetime import datetime
 from flask import render_template, request, url_for, redirect
 from app import app, db
+from db_models import Tags, Tasks, Users
 from models import Task
 from form_models import TaskForm
 
 
 @app.route("/")
 def index():
-    tasks = [
-        Task('Do something', 'School', '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas facilisis sed sapien eget
-                        lacinia. Aenean enim est, laoreet eu mauris vel, pharetra elementum leo. Sed pellentesque eget
-                        mi vitae imperdiet. Donec nec odio leo. Aliquam interdum at orci id tincidunt. Maecenas ante
-                        ligula, dignissim et finibus a, malesuada ac ex.''', datetime.now()),
-        Task('Do something', 'Work', '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas facilisis sed sapien eget
-                        lacinia. Aenean enim est, laoreet eu mauris vel, pharetra elementum leo. Sed pellentesque eget
-                        mi vitae imperdiet. Donec nec odio leo. Aliquam interdum at orci id tincidunt. Maecenas ante
-                        ligula, dignissim et finibus a, malesuada ac ex.''', datetime.now()),
-        Task('Do something', None, '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas facilisis sed sapien eget
-                        lacinia. Aenean enim est, laoreet eu mauris vel, pharetra elementum leo. Sed pellentesque eget
-                        mi vitae imperdiet. Donec nec odio leo. Aliquam interdum at orci id tincidunt. Maecenas ante
-                        ligula, dignissim et finibus a, malesuada ac ex.''', datetime.now()),
-        Task('Do something', 'School', '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas facilisis sed sapien eget
-                        lacinia. Aenean enim est, laoreet eu mauris vel, pharetra elementum leo. Sed pellentesque eget
-                        mi vitae imperdiet. Donec nec odio leo. Aliquam interdum at orci id tincidunt. Maecenas ante
-                        ligula, dignissim et finibus a, malesuada ac ex.''', datetime.now()),
-        Task('Do something', 'School', None, datetime.now()),
-        Task('Do something', None, None, datetime.now())
-    ]
+    tasks = Tasks.query.all()
+    print(tasks[0].creation_date.strftime('%d/%m/%y'))
     return render_template("index.html", tasks=tasks)
 
 
