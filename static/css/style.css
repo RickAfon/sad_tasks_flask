@@ -64,7 +64,9 @@ textarea {
 
 .main-wrapper {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2vh;
 }
 
 .task-list {
@@ -110,6 +112,24 @@ textarea {
 
 .task-card__content {
     font-size: 1.1rem;
+}
+
+.cool-button {
+    background-color: var(--dark-bg-color);
+    padding: 0.8rem 1rem;
+    border: 3px solid var(--border-color-alt);
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 100ms;
+    margin: 0.2rem 0;
+}
+
+.cool-button:hover {
+    background-color: var(--dark-bg-color-lighter);
+    cursor: pointer;
+    transform: scale(1.1);
+    margin: 0.3rem 0;
 }
 
 .submit-button {

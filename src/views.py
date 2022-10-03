@@ -22,4 +22,15 @@ def new_task():
 @app.route('/save_task', methods=['GET', 'POST'])
 def save_task():
     form = TaskForm(request.form)
-    return redirect(url_for("new_task"))
+
+    if not form.validate_on_submit():
+        return redirect("new_task")
+
+    title = form.title.data
+    content = form.content.data
+    
+    new_task = Tasks(title=title, content=content, creation_date=datetime.now(), user_id=1)
+    db.session.add(new_task)
+    db.session.commit()
+
+    return redirect(url_for("index"))

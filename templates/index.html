@@ -12,6 +12,7 @@
 
     <body>
         <main class="main-wrapper">
+            <a href="{{ url_for('new_task') }}"><button class="cool-button">New Task</button></a>
             <ul class="task-list">
                 {% for task in tasks %}
                 <li class="task-card">
