@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask import render_template, request, url_for, redirect
+from sqlalchemy import delete
 from app import app, db
 from db_models import Tags, Tasks, Users
 from models import Task
@@ -9,7 +10,6 @@ from form_models import TaskForm
 @app.route("/")
 def index():
     tasks = Tasks.query.all()
-    print(tasks[0].creation_date.strftime('%d/%m/%y'))
     return render_template("index.html", tasks=tasks)
 
 
@@ -33,4 +33,12 @@ def save_task():
     db.session.add(new_task)
     db.session.commit()
 
+    return redirect(url_for("index"))
+
+
+@app.route("/delete_task/<int:task_id>")
+def delete_task(task_id: int):
+    task = Tasks.query.filter_by(id=task_id).first()
+    db.session.delete(task)
+    db.session.commit()
     return redirect(url_for("index"))
