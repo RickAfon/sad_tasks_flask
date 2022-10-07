@@ -15,8 +15,9 @@ def index():
 
 @app.route('/new_task')
 def new_task():
+    tags = Tags.query.filter_by(user_id=1).all()
     form = TaskForm()
-    return render_template("new_task.html", form=form)
+    return render_template("new_task.html", form=form,tags=tags)
 
 
 @app.route('/save_task', methods=['GET', 'POST'])
@@ -28,8 +29,11 @@ def save_task():
 
     title = form.title.data
     content = form.content.data
+    tag_id = int(form.tag_id.data)
+    if tag_id == -1:
+        tag_id = None
     
-    new_task = Tasks(title=title, content=content, creation_date=datetime.now(), user_id=1)
+    new_task = Tasks(title=title, content=content, creation_date=datetime.now(), user_id=1, tag_id=tag_id)
     db.session.add(new_task)
     db.session.commit()
 

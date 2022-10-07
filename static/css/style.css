@@ -193,3 +193,41 @@ textarea {
     display: flex;
     justify-content: center;
 }
+
+.tag-input-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.tag-input {
+    background-color: var(--dark-bg-color);
+    padding: 10px;
+    font-size: 1.2rem;
+    border: 3px dashed var(--red-accent-color);
+    border-radius: 10px;
+    transition: all 200ms;
+}
+
+.tag-input:hover {
+    cursor: pointer;
+    border-color: var(--border-color-alt);
+    background-color: var(--dark-bg-color-lighter);
+    border-style: solid;
+    transform: scale(1.1);
+}
+
+.tag-input:active {
+    transform: scale(1.15);
+}
+
+.tag-input--selected {
+    transform: scale(1.15);
+    border-style: solid;
+    border-color: var(--border-color-alt);
+    transition: all 100ms;
+}
+
+.tag-input--selected:hover {
+    border-color: var(--red-accent-color);
+}
