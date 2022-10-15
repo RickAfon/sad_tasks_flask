@@ -9,3 +9,9 @@ class TaskForm(FlaskForm):
     content = TextAreaField(label="Content")
     tag_id = HiddenField(label="Tag Id")
     save = SubmitField("Save")
+
+
+class TagForm(FlaskForm):
+    name = StringField(label="Name", validators=[
+                       DataRequired(), Length(min=0, max=25)])
+    save = SubmitField("Save")

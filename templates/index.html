@@ -14,7 +14,10 @@
 
     <body>
         <main class="main-wrapper">
-            <a href="{{ url_for('new_task') }}"><button class="cool-button">New Task</button></a>
+            <nav class="buttons-nav">
+                <a href="{{ url_for('new_task') }}"><button class="cool-button">New Task</button></a>
+                <a href="{{ url_for('tags') }}"><button class="cool-button">Tags</button></a>
+            </nav>
             <ul class="task-list">
                 {% for task in tasks %}
                 <li class="task-card__li">
@@ -34,7 +37,7 @@
                     </div>
                     <a href="{{ url_for('delete_task', task_id=task.id) }}">
                         <button class="delete-button"><span class="material-symbols-outlined">
-                            delete
+                                delete
                             </span>
                         </button>
                     </a>

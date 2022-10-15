@@ -58,9 +58,16 @@ textarea {
     font-weight: 700;
     margin-bottom: 2rem;
 }
+
 .main-title::before {
     content: "|";
     font-size: 3rem;
+}
+
+.buttons-nav {
+    display: flex;
+    margin-bottom: 10px;
+    column-gap: 10px;
 }
 
 .main-wrapper {
@@ -230,4 +237,45 @@ textarea {
 
 .tag-input--selected:hover {
     border-color: var(--red-accent-color);
+}
+
+.tag-list {
+    width: 55vw;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+@media (max-width: 1440px) {
+    .tag-list {
+        width: 80vw;
+    }
+}
+
+.tag-list__li {
+    background-color: var(--dark-bg-color);
+    padding: 10px;
+    font-weight: 700;
+    font-size: 1.3rem;
+    border: 3px solid var(--tag-color);
+    border-radius: 10px;
+    transition: all 200ms;
+}
+
+.tag-list__li:hover {
+    background-color: var(--red-accent-color);
+    transform: scale(1.1);
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.new-tag-inp-bt {
+    display: flex;
+    column-gap: 10px;
+}
+
+.new-tag-inp-bt .submit-button {
+    border-width: 3px;
+    width: 6rem;
 }
