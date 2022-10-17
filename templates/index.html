@@ -13,6 +13,11 @@
     </head>
 
     <body>
+        <header class="user-header">
+            <a href="{{ url_for('login_page') }}"><button class="cool-button">Login</button></a>
+            <a href="{{ url_for('logout') }}"><button class="cool-button">Logout</button></a>
+            <h3 class="user-header__username">{{ user.name if user != None else '👽' }}</h3>
+        </header>
         <main class="main-wrapper">
             <nav class="buttons-nav">
                 <a href="{{ url_for('new_task') }}"><button class="cool-button">New Task</button></a>

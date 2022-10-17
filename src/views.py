@@ -1,16 +1,18 @@
 from datetime import datetime
-from flask import render_template, request, url_for, redirect
+from flask import render_template, request, session, url_for, redirect
 from sqlalchemy import delete
 from app import app, db
 from db_models import Tags, Tasks, Users
 from models import Task
-from form_models import TagForm, TaskForm
+from form_models import LoginForm, TagForm, TaskForm
 
 
 @app.route("/")
 def index():
+    user = Users.query.filter_by(id=session["logged_user"]).first(
+    ) if "logged_user" in session.keys() else None
     tasks = Tasks.query.all()
-    return render_template("index.html", tasks=tasks)
+    return render_template("index.html", tasks=tasks, user=user)
 
 
 @app.route('/new_task')
@@ -73,3 +75,27 @@ def method_name(tag_id: int):
         db.session.delete(tag)
         db.session.commit()
     return redirect(url_for("tags"))
+
+
+@app.route('/login_page')
+def login_page():
+    form = LoginForm()
+    return render_template("login_page.html", form=form)
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    form = LoginForm(request.form)
+    user = Users.query.filter_by(email=form.email.data).first()
+    if user != None and user.password == form.password.data:
+        session["logged_user"] = user.id
+        print(session["logged_user"])
+        return redirect(url_for("index"))
+    return redirect(url_for("login_page"))
+
+
+@app.route('/logout')
+def logout():
+    if "logged_user" in session.keys():
+        del session["logged_user"]
+    return redirect("login_page")
