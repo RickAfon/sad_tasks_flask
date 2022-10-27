@@ -1,4 +1,6 @@
 from datetime import datetime
+from types import NoneType
+from typing import Union
 from flask import render_template, request, session, url_for, redirect
 from sqlalchemy import delete
 from app import app, db
@@ -7,23 +9,35 @@ from models import Task
 from form_models import LoginForm, TagForm, TaskForm
 
 
+def get_logged_user() -> Union[NoneType, Users]:
+    user = Users.query.filter_by(id=session.get("logged_user")).first()
+    return user
+
+
 @app.route("/")
 def index():
-    user = Users.query.filter_by(id=session["logged_user"]).first(
-    ) if "logged_user" in session.keys() else None
-    tasks = Tasks.query.all()
+    user = get_logged_user()
+    if user == None:
+        return redirect(url_for("login_page"))
+    tasks = Tasks.query.filter_by(user_id=user.id).all()
     return render_template("index.html", tasks=tasks, user=user)
 
 
 @app.route('/new_task')
 def new_task():
-    tags = Tags.query.filter_by(user_id=1).all()
+    user = get_logged_user()
+    if user == None:
+        return redirect(url_for("login_page"))
+    tags = Tags.query.filter_by(user_id=user.id).all()
     form = TaskForm()
     return render_template("new_task.html", form=form, tags=tags)
 
 
 @app.route('/save_task', methods=['GET', 'POST'])
 def save_task():
+    user = get_logged_user()
+    if user == None:
+        return redirect(url_for("login_page"))
     form = TaskForm(request.form)
 
     if not form.validate_on_submit():
@@ -36,7 +50,7 @@ def save_task():
         tag_id = None
 
     new_task = Tasks(title=title, content=content,
-                     creation_date=datetime.now(), user_id=1, tag_id=tag_id)
+                     creation_date=datetime.now(), user_id=user.id, tag_id=tag_id)
     db.session.add(new_task)
     db.session.commit()
 
@@ -45,6 +59,9 @@ def save_task():
 
 @app.route("/delete_task/<int:task_id>")
 def delete_task(task_id: int):
+    user = get_logged_user()
+    if user == None:
+        return redirect(url_for("login_page"))
     task = Tasks.query.filter_by(id=task_id).first()
     if task != None:
         db.session.delete(task)
@@ -54,22 +71,31 @@ def delete_task(task_id: int):
 
 @app.route('/tags')
 def tags():
-    tags = Tags.query.filter_by(user_id=1).all()
+    user = get_logged_user()
+    if user == None:
+        return redirect(url_for("login_page"))
+    tags = Tags.query.filter_by(user_id=user.id).all()
     form = TagForm()
     return render_template("tags.html", tags=tags, form=form)
 
 
 @app.route('/save_tag', methods=["GET", "POST"])
 def save_tag():
+    user = get_logged_user()
+    if user == None:
+        return redirect(url_for("login_page"))
     form = TagForm(request.form)
-    new_tag = Tags(name=form.name.data, user_id=1)
+    new_tag = Tags(name=form.name.data, user_id=user.id)
     db.session.add(new_tag)
     db.session.commit()
     return redirect("tags")
 
 
 @app.route('/delete_tag/<int:tag_id>')
-def method_name(tag_id: int):
+def delete_tag(tag_id: int):
+    user = get_logged_user()
+    if user == None:
+        return redirect(url_for("login_page"))
     tag = Tags.query.filter_by(id=tag_id).first()
     if tag != None:
         db.session.delete(tag)

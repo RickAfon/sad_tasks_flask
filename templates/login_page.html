@@ -13,10 +13,10 @@
     <body>
         <main class="main-wrapper">
             <nav class="buttons-nav">
-                <a href="{{url_for('index')}}">
+                <!-- <a href="{{url_for('index')}}">
                     <button class="cool-button">
                         <- Back</button>
-                </a>
+                </a> -->
             </nav>
             <form action="{{ url_for('login') }}" method="post">
                 {{ form.csrf_token }}
