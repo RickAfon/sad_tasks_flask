@@ -1,12 +1,10 @@
 from datetime import datetime
-import email
 from types import NoneType
 from typing import Union
+from flask_bcrypt import check_password_hash, generate_password_hash
 from flask import flash, render_template, request, session, url_for, redirect
-from sqlalchemy import delete
 from app import app, db
 from db_models import Tags, Tasks, Users
-from models import Task
 from form_models import LoginForm, SignUpForm, TagForm, TaskForm
 
 
@@ -114,7 +112,7 @@ def login_page():
 def login():
     form = LoginForm(request.form)
     user = Users.query.filter_by(email=form.email.data).first()
-    if user != None and user.password == form.password.data:
+    if user != None and check_password_hash(user.password, form.password.data):
         session["logged_user"] = user.id
         print(session["logged_user"])
         return redirect(url_for("index"))
@@ -148,8 +146,9 @@ def create_user():
         flash("Passwords do not match")
         return redirect(url_for("sign_up"))
 
+    password_hash = generate_password_hash(form.password.data).decode("utf-8")
     new_user = Users(name=form.name.data, email=form.email.data,
-                     password=form.password.data)
+                     password=password_hash)
     db.session.add(new_user)
     db.session.commit()
     return redirect(url_for("login_page"))
