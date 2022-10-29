@@ -1,12 +1,13 @@
 from datetime import datetime
+import email
 from types import NoneType
 from typing import Union
-from flask import render_template, request, session, url_for, redirect
+from flask import flash, render_template, request, session, url_for, redirect
 from sqlalchemy import delete
 from app import app, db
 from db_models import Tags, Tasks, Users
 from models import Task
-from form_models import LoginForm, TagForm, TaskForm
+from form_models import LoginForm, SignUpForm, TagForm, TaskForm
 
 
 def get_logged_user() -> Union[NoneType, Users]:
@@ -125,3 +126,30 @@ def logout():
     if "logged_user" in session.keys():
         del session["logged_user"]
     return redirect("login_page")
+
+
+@app.route("/sign_up")
+def sign_up():
+    form = SignUpForm()
+    return render_template("sign_up.html", form=form)
+
+
+@app.route("/create_user", methods=["GET", "POST"])
+def create_user():
+    form = SignUpForm(request.form)
+    already_exists = Users.query.filter_by(
+        email=form.email.data).first() != None
+
+    if already_exists:
+        flash("E-mail already in use")
+        return redirect(url_for("sign_up"))
+
+    if form.password.data != form.confirm_password.data:
+        flash("Passwords do not match")
+        return redirect(url_for("sign_up"))
+
+    new_user = Users(name=form.name.data, email=form.email.data,
+                     password=form.password.data)
+    db.session.add(new_user)
+    db.session.commit()
+    return redirect(url_for("login_page"))

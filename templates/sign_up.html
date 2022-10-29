@@ -13,25 +13,42 @@
     <body>
         <main class="main-wrapper">
             <nav class="buttons-nav">
-                <a href="{{url_for('sign_up')}}">
+                <a href="{{url_for('login')}}">
                     <button class="cool-button">
-                        Sign up -></button>
+                        <- Login</button>
                 </a>
             </nav>
-            <form action="{{ url_for('login') }}" method="post">
+            <form action="{{ url_for('create_user') }}" method="post">
                 {{ form.csrf_token }}
+                <div class="input-group flex-column">
+                    {{ form.name.label }}
+                    {{ form.name(placeholder='Your name...') }}
+                </div>
                 <div class="input-group flex-column">
                     {{ form.email.label }}
                     {{ form.email(placeholder='Your email...') }}
                 </div>
                 <div class="input-group flex-column">
                     {{ form.password.label }}
-                    {{ form.password(placeholder='Your email...') }}
+                    {{ form.password(placeholder='Your password...') }}
                 </div>
                 <div class="input-group flex-column">
-                    {{ form.save(class='submit-button') }}
+                    {{ form.confirm_password.label }}
+                    {{ form.confirm_password(placeholder='Your password again...') }}
+                </div>
+                <div class="input-group flex-column">
+                    {{ form.create_user(class='submit-button') }}
                 </div>
             </form>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                <li class="error-flash">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
         </main>
     </body>
 

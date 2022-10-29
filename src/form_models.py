@@ -23,3 +23,11 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[
                              DataRequired(), Length(min=0, max=100)])
     save = SubmitField("Login")
+
+
+class SignUpForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired(), Length(0, 100)])
+    email = EmailField("E-mail", validators=[DataRequired(), Length(0, 60)])
+    password = PasswordField("Password", validators=[Length(8, 100)])
+    confirm_password = PasswordField("Confirm Password", validators=[Length(8, 100)])
+    create_user = SubmitField("Create")
