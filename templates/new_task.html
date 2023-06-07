@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="{{url_for('static', filename='js/new_task.js')}}" defer></script>
+        <title>Sad Tasks</title>
+    </head>
+
+    <body>
+        <main class="horizontal-auto take-full-height flex-column" id="new-task-main">
+
+            <nav class="buttons-nav">
+                <a href="{{url_for('index')}}">
+                    <button class="cool-button">
+                        <- Back</button>
+                </a>
+            </nav>
+
+            <h1 class="main-title">New Task</h1>
+
+            <form action="{{ url_for('save_task') }}" , method="post" ,
+                class="flex-column main-center-flex take-available-height">
+                {{ form.csrf_token }}
+                <div class="input-group flex-column">
+                    {{ form.title.label }}
+                    {{ form.title(placeholder='Title goes here...') }}
+                </div>
+                <div class="input-group flex-column">
+                    {{ form.content.label }}
+                    {{ form.content(placeholder='Description goes here...', rows=5) }}
+                </div>
+                <div class="input-group flex-column">
+                    <label>Select a tag (or not idk...)</label>
+                    <div class="tag-input-wrapper">
+                        {% for tag in tags %}
+                        <button value="{{ tag.id }}" class="tag-input">{{ tag.name }}</button>
+                        {% endfor %}
+                        {{ form.tag_id }}
+                    </div>
+                </div>
+                <div class="input-group flex-column">
+                    {{ form.save(class='submit-button') }}
+                </div>
+            </form>
+        </main>
+    </body>
+
+</html>

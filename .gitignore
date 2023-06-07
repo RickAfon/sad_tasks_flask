@@ -15,4 +15,7 @@ dist/
 build/
 *.egg-info/
 
+.env
+
 teste.py
+TODO.txt

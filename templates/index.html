@@ -7,26 +7,45 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <title>Sad Tasks</title>
     </head>
 
     <body>
+        <header class="user-header">
+            <a href="{{ url_for('login_page') }}"><button class="cool-button">Login</button></a>
+            <a href="{{ url_for('logout') }}"><button class="cool-button">Logout</button></a>
+            <h3 class="user-header__username">{{ user.name if user != None else '👽' }}</h3>
+        </header>
         <main class="main-wrapper">
+            <nav class="buttons-nav">
+                <a href="{{ url_for('new_task') }}"><button class="cool-button">New Task</button></a>
+                <a href="{{ url_for('tags') }}"><button class="cool-button">Tags</button></a>
+            </nav>
             <ul class="task-list">
                 {% for task in tasks %}
-                <li class="task-card">
-                    <div class="task-card__header">
-                        <div class="task-card__header__title">
-                            <h1>{{ task.title }}</h1>
-                            {% if task.tag %}
-                            <span>{{ task.tag }}</span>
-                            {% endif %}
+                <li class="task-card__li">
+                    <div class="task-card">
+                        <div class="task-card__header">
+                            <div class="task-card__header__title">
+                                <h1>{{ task.title }}</h1>
+                                {% if task.tag%}
+                                <span>{{ task.tag }}</span>
+                                {% endif %}
+                            </div>
+                            <span>{{ task.creation_date.strftime('%d/%m/%y') }}</span>
                         </div>
-                        <span>{{ task.creation_date.strftime('%d/%m/%y') }}</span>
+                        {% if task.content %}
+                        <span class="task-card__content">{{ task.content }}</span>
+                        {% endif %}
                     </div>
-                    {% if task.content %}
-                    <span class="task-card__content">{{ task.content }}</span>
-                    {% endif %}
+                    <a href="{{ url_for('delete_task', task_id=task.id) }}">
+                        <button class="delete-button"><span class="material-symbols-outlined">
+                                delete
+                            </span>
+                        </button>
+                    </a>
                 </li>
                 {% endfor %}
             </ul>

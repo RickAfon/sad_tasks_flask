@@ -2,7 +2,7 @@ CREATE TABLE users (
     id serial PRIMARY KEY,
     name varchar(100) NOT NULL,
     email varchar(60) NOT NULL UNIQUE,
-    PASSWORD varchar(100) NOT NULL
+    PASSWORD varchar(1000) NOT NULL
 );
 
 CREATE TABLE tags (
